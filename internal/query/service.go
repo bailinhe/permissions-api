@@ -173,7 +173,7 @@ func NewEngine(namespace string, client *authzed.Client, kv nats.KeyValue, store
 	if e.schema == nil {
 		p := iapl.DefaultPolicy()
 		e.schema = p.Schema()
-		e.rbac = p.RBAC()
+		e.rbac = iapl.RBAC{}
 
 		e.cacheSchemaResources()
 	}
@@ -195,7 +195,13 @@ func WithLogger(logger *zap.SugaredLogger) Option {
 func WithPolicy(policy iapl.Policy) Option {
 	return func(e *engine) {
 		e.schema = policy.Schema()
-		e.rbac = policy.RBAC()
+
+		rbac := policy.RBAC()
+		if rbac == nil {
+			e.rbac = iapl.RBAC{}
+		} else {
+			e.rbac = *rbac
+		}
 
 		e.cacheSchemaResources()
 	}

@@ -87,7 +87,7 @@ type ConditionRelationshipAction struct {
 type Policy interface {
 	Validate() error
 	Schema() []types.ResourceType
-	RBAC() RBAC
+	RBAC() *RBAC
 }
 
 var _ Policy = &policy{}
@@ -747,6 +747,6 @@ func (v *policy) Schema() []types.ResourceType {
 }
 
 // RBAC returns the RBAC configurations
-func (v *policy) RBAC() RBAC {
-	return *v.p.RBAC
+func (v *policy) RBAC() *RBAC {
+	return v.p.RBAC
 }
