@@ -360,6 +360,9 @@ func (e *engine) isRoleBindable(ctx context.Context, role, res types.Resource) e
 			},
 		},
 		Permission: iapl.AvailableRoleRelation,
+		Consistency: &pb.Consistency{
+			Requirement: &pb.Consistency_FullyConsistent{FullyConsistent: true},
+		},
 	}
 
 	err := e.checkPermission(ctx, req)
